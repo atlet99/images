@@ -9,7 +9,7 @@ This repository contains Dockerfiles for building custom Docker images tailored 
   - [Getting started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Building Images with buildx](#building-images-with-buildx)
-    - [License](#license)
+  - [License](#license)
 
 ## Overview
 
@@ -61,6 +61,6 @@ docker buildx build \
   --push .
 ```
 
-### License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
