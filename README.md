@@ -56,6 +56,10 @@ docker buildx build \
   --build-arg KUBECTL_VERSION=1.26.3 \
   --build-arg TERRAFORM_VERSION=1.5.3 \
   --build-arg HELMSMAN_APP_VERSION=3.17.0 \
+  --build-arg HELM_DIFF=3.6.0 \               
+  --build-arg HELM_GIT=0.10.0 \               
+  --build-arg HELM_S3=0.11.0 \                
+  --build-arg HELM_SECRETS=4.0.0 \
   -t deployer:stable \
   -f deployer.Dockerfile \
   --push .
