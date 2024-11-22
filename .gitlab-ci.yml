@@ -3,7 +3,7 @@ stages:
   - push
 
 variables:
-  DOCKER_CONFIG: /kaniko/.docker/
+  DOCKER_CONFIG: /kaniko/.docker
   IMAGE_REGISTRY: $CI_REGISTRY
   IMAGE_TAG: stable
   CACHE_TTL: 1d
