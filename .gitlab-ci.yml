@@ -22,7 +22,7 @@ before_script:
   - |
     if [ -n "$DOCKERHUB_USERNAME" ] && [ -n "$DOCKERHUB_PASSWORD" ]; then
       echo "Adding DockerHub credentials to Kaniko..."
-      echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n ${DOCKERHUB_USERNAME}:${DOCKERHUB_PASSWORD} | base64 | tr -d '\n')\"}}}" | jq -s '.[0] * .[1]' /kaniko/.docker/config.json - > /kaniko/.docker/config.json.tmp && mv /kaniko/.docker/config.json.tmp /kaniko/.docker/config.json
+      echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$DOCKER_AUTH_CONFIG\"}}}" >> /kaniko/.docker/config.json
     else
       echo "Warning: DockerHub credentials are not set. Skipping DockerHub authentication."
     fi
