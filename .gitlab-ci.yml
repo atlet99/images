@@ -62,6 +62,7 @@ before_script:
     entrypoint: [ "" ]
   script:
     - |
+      BUILD_ARGS=$(echo "$BUILD_ARGS" | tr '\n' ' ')
       FULL_IMAGE="$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
       echo "Building and pushing image: $FULL_IMAGE"
       if [ -n "$BUILD_ARGS" ]; then
@@ -97,18 +98,7 @@ push_deployer_image_stable:
     IMAGE_NAME: "deployer"
     CONTEXT_PATH: "$CI_PROJECT_DIR"
     DOCKERFILE_PATH: "$CI_PROJECT_DIR/deployer.Dockerfile"
-    BUILD_ARGS:
-      value: | 
-        --build-args HELMFILE_VERSION=$HELMFILE_VERSION \
-        --build-args HELM_VERSION=$HELM_VERSION \
-        --build-args SOPS_VERSION=$SOPS_VERSION \
-        --build-args KUBECTL_VERSION=$KUBECTL_VERSION \
-        --build-args TERRAFORM_VERSION=$TERRAFORM_VERSION \
-        --build-args HELMSMAN_APP_VERSION=$HELMSMAN_APP_VERSION \
-        --build-args HELM_DIFF=$HELM_DIFF \
-        --build-args HELM_GIT=$HELM_GIT \
-        --build-args HELM_S3=$HELM_S3 \
-        --build-args HELM_SECRETS=$HELM_SECRETS
+    BUILD_ARGS: --build-args HELMFILE_VERSION=$HELMFILE_VERSION --build-args HELM_VERSION=$HELM_VERSION --build-args SOPS_VERSION=$SOPS_VERSION --build-args KUBECTL_VERSION=$KUBECTL_VERSION --build-args TERRAFORM_VERSION=$TERRAFORM_VERSION --build-args HELMSMAN_APP_VERSION=$HELMSMAN_APP_VERSION --build-args HELM_DIFF=$HELM_DIFF --build-args HELM_GIT=$HELM_GIT --build-args HELM_S3=$HELM_S3 --build-args HELM_SECRETS=$HELM_SECRETS
   rules:
     - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "master"'
       when: always
