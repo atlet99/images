@@ -97,17 +97,18 @@ push_deployer_image_stable:
     IMAGE_NAME: "deployer"
     CONTEXT_PATH: "$CI_PROJECT_DIR"
     DOCKERFILE_PATH: "$CI_PROJECT_DIR/deployer.Dockerfile"
-    BUILD_ARGS: |
-      --build-arg HELMFILE_VERSION=$HELMFILE_VERSION \
-      --build-arg HELM_VERSION=$HELM_VERSION \
-      --build-arg SOPS_VERSION=$SOPS_VERSION \
-      --build-arg KUBECTL_VERSION=$KUBECTL_VERSION \
-      --build-arg TERRAFORM_VERSION=$TERRAFORM_VERSION \
-      --build-arg HELMSMAN_APP_VERSION=$HELMSMAN_APP_VERSION \
-      --build-arg HELM_DIFF=$HELM_DIFF \
-      --build-arg HELM_GIT=$HELM_GIT \
-      --build-arg HELM_S3=$HELM_S3 \
-      --build-arg HELM_SECRETS=$HELM_SECRETS
+    BUILD_ARGS:
+      value: | 
+        --build-arg HELMFILE_VERSION=$HELMFILE_VERSION \
+        --build-arg HELM_VERSION=$HELM_VERSION \
+        --build-arg SOPS_VERSION=$SOPS_VERSION \
+        --build-arg KUBECTL_VERSION=$KUBECTL_VERSION \
+        --build-arg TERRAFORM_VERSION=$TERRAFORM_VERSION \
+        --build-arg HELMSMAN_APP_VERSION=$HELMSMAN_APP_VERSION \
+        --build-arg HELM_DIFF=$HELM_DIFF \
+        --build-arg HELM_GIT=$HELM_GIT \
+        --build-arg HELM_S3=$HELM_S3 \
+        --build-arg HELM_SECRETS=$HELM_SECRETS
   rules:
     - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "master"'
       when: always
