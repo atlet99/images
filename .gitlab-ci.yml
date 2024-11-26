@@ -3,15 +3,10 @@ stages:
   - push
 
 variables:
-  DOCKER_CONFIG: /kaniko/.docker
-  IMAGE_REGISTRY: $CI_REGISTRY
   IMAGE_TAG: stable
-  CACHE_TTL: 1d
+  CACHE_TTL: 24h
 
 default:
-  image:
-    name: gcr.io/kaniko-project/executor:v1.23.2
-    entrypoint: [""]
   interruptible: true
   retry:
     max: 2
@@ -22,45 +17,51 @@ default:
     - nodb
   timeout: 15m
   before_script:
-    - echo "{\"auths\":{\"$IMAGE_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > $DOCKER_CONFIG/config.json
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(echo -n ${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD} | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
 
-mr_build_images:
-  stage: build
+.build_template: &build_template
+  image:
+    name: gcr.io/kaniko-project/executor:v1.23.1-debug
+    entrypoint: [ "" ]
   script:
     - |
-      for DOCKERFILE in $(find . -type f -name '*.Dockerfile'); do
-        IMAGE_NAME=$(basename "$DOCKERFILE" | sed 's/\.Dockerfile$//')
-        CONTEXT_PATH=$(dirname "$DOCKERFILE")
-        FULL_IMAGE="$IMAGE_REGISTRY/$IMAGE_NAME:mr-$CI_COMMIT_SHORT_SHA"
-        echo "Building and pushing temporary image: $FULL_IMAGE"
-        /kaniko/executor \
-          --context "$CONTEXT_PATH" \
-          --dockerfile "$DOCKERFILE" \
-          --destination "$FULL_IMAGE" \
-          --cache=true \
-          --cache-ttl $CACHE_TTL \
-          --ttl 30m
-      done
+      FULL_IMAGE="$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+      echo "Building and pushing image: $FULL_IMAGE"
+      /kaniko/executor \
+        --context "$CONTEXT_PATH" \
+        --dockerfile "$DOCKERFILE_PATH" \
+        --destination "$FULL_IMAGE"
+
+push_ansible_image_stable:
+  <<: *build_template
+  stage: push
+  variables:
+    IMAGE_NAME: "ansible"
+    CONTEXT_PATH: "$CI_PROJECT_DIR"
+    DOCKERFILE_PATH: "$CI_PROJECT_DIR/ansible.Dockerfile"
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "master"'
       when: always
 
-build_and_push:
+push_deployer_image_stable:
+  <<: *build_template
   stage: push
-  script:
-    - |
-      for DOCKERFILE in $(find . -type f -name '*.Dockerfile'); do
-        IMAGE_NAME=$(basename "$DOCKERFILE" | sed 's/\.Dockerfile$//')
-        CONTEXT_PATH=$(dirname "$DOCKERFILE")
-        FULL_IMAGE="$IMAGE_REGISTRY/$IMAGE_NAME:$IMAGE_TAG"
-        echo "Building and pushing image: $FULL_IMAGE"
-        /kaniko/executor \
-          --context "$CONTEXT_PATH" \
-          --dockerfile "$DOCKERFILE" \
-          --destination "$FULL_IMAGE" \
-          --cache=true \
-          --cache-ttl $CACHE_TTL
-      done
+  variables:
+    IMAGE_NAME: "deployer"
+    CONTEXT_PATH: "$CI_PROJECT_DIR"
+    DOCKERFILE_PATH: "$CI_PROJECT_DIR/deployer.Dockerfile"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "master"'
+      when: always
+
+push_kaniko_image_stable:
+  <<: *build_template
+  stage: push
+  variables:
+    IMAGE_NAME: "kaniko"
+    CONTEXT_PATH: "$CI_PROJECT_DIR"
+    DOCKERFILE_PATH: "$CI_PROJECT_DIR/kaniko.Dockerfile"
   rules:
     - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "master"'
       when: always
