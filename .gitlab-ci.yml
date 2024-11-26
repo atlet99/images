@@ -3,9 +3,43 @@ stages:
   - push
 
 variables:
-  IMAGE_TAG: stable
-  CACHE_TTL: 24h
-  CONTAINER_CONFIG: /kaniko/.docker/config.json
+  IMAGE_TAG:
+    value: "stable"
+    description: "default tag for used version of image"
+  CONTAINER_CONFIG:
+    value: "/kaniko/.docker/config.json"
+    description: "config file path"
+  HELMFILE_VERSION:
+    value: 0.147.0
+    description: "helmfile release version"
+  HELM_VERSION:
+    value: 3.12.0
+    description: "helm release version"
+  SOPS_VERSION:
+    value: 3.7.3
+    description: "sops release version"
+  KUBECTL_VERSION:
+    value: 1.29.0
+    description: "kubectl cli release version"
+  TERRAFORM_VERSION:
+    value: 1.5.3
+    description: "terraform cli release version"
+  HELMSMAN_APP_VERSION:
+    value: 3.17.0
+    description: "helmsman cli release version"
+  HELM_DIFF:
+    value: 3.6.0
+    description: "helm-diff plugin release for helmfile"
+  HELM_GIT:
+    value: 0.10.0
+    description: "helm-git plugin release for helmfile"
+  HELM_S3:
+    value: 0.11.0
+    description: "helm-s3 plugin release for helmfile"
+  HELM_SECRETS:
+    value: 4.0.0
+    description: "helm-secrets plugin release for helmfile"
+
 
 default:
   interruptible: true
