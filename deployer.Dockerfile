@@ -46,9 +46,11 @@ RUN curl -OL https://github.com/Praqma/helmsman/releases/download/v3.17.0/helmsm
 
 FROM alpine:3.20.0
 
-RUN apk --no-cache add git \
+RUN apk --no-cache add git openssh-client \
     tar gzip bash
-    
+
+RUN mkdir -p ~/.ssh
+
 COPY --from=builder \
     /usr/local/bin/helmfile \
     /linux-amd64/helm \
