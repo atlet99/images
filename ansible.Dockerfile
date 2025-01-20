@@ -20,6 +20,7 @@ RUN apk --no-cache add \
         sudo \
         python3 \
         py3-pip \
+        python3-dev \
         openssl \
         ca-certificates \
         sshpass \
@@ -28,6 +29,7 @@ RUN apk --no-cache add \
         git \
         gcc \
         musl-dev \
+        libffi-dev \
         build-base
 
 # Create and activate a Python virtual environment
@@ -86,6 +88,7 @@ RUN python3 -m venv /venv && \
         wcmatch==10.0 \
         yamllint==1.35.1 \
         zipp==3.21.0 && \
+    apk del build-base && \
     rm -rf /var/cache/apk/* /root/.cache/pip
 
 # Prepare default Ansible directory structure
