@@ -19,7 +19,7 @@ LABEL maintainer="pachman17@yandex.ru" \
 RUN apk --no-cache add \
         sudo \
         python3 \
-        python3-pip \
+        py3-pip \
         openssl \
         ca-certificates \
         sshpass \
