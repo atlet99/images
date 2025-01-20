@@ -15,7 +15,7 @@ LABEL maintainer="pachman17@yandex.ru" \
     org.label-schema.vcs-url="https://github.com/atlet99/ansible-inside-docker" \
     org.label-schema.vendor="Zhakhongir (atlet99) Rakhmankulov"
 
-# Install system dependencies and Python build tools
+# Install Python and build dependencies
 RUN apk --no-cache add \
         sudo \
         python3 \
@@ -32,13 +32,13 @@ RUN apk --no-cache add \
         musl-dev \
         gcc \
         cargo \
-        build-base && \
-    rm -rf /usr/lib/python3.11/EXTERNALLY-MANAGED
+        build-base
 
-# Upgrade pip and install Python dependencies
-RUN pip3 install --upgrade pip wheel && \
-    pip3 install --upgrade cryptography==43.0.1 cffi==1.17.1 && \
-    pip3 install \
+# Create and activate a Python virtual environment
+RUN python3 -m venv /venv && \
+    . /venv/bin/activate && \
+    pip install --upgrade pip wheel && \
+    pip install \
         ansible-core==${ANSIBLE_CORE_VERSION} \
         ansible==${ANSIBLE_VERSION} \
         ansible-lint==${ANSIBLE_LINT_VERSION} \
