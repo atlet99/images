@@ -25,7 +25,10 @@ RUN apk --no-cache add \
         sshpass \
         openssh-client \
         rsync \
-        git
+        git \
+        gcc \
+        musl-dev \
+        build-base
 
 # Create and activate a Python virtual environment
 RUN python3 -m venv /venv && \

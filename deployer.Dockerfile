@@ -37,12 +37,12 @@ RUN curl -OL https://hashicorp-releases.yandexcloud.net/terraform/${TERRAFORM_VE
     && rm -f terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
 ARG HELMSMAN_APP_VERSION
-RUN curl -OL https://github.com/Praqma/helmsman/releases/download/v3.17.0/helmsman_3.17.0_linux_amd64.tar.gz -k \
+RUN curl -OL https://github.com/Praqma/helmsman/releases/download/v3.17.1/helmsman_3.17.1_linux_amd64.tar.gz -k \
     && ls -la \
-    && tar xzf helmsman_3.17.0_linux_amd64.tar.gz \
+    && tar xzf helmsman_3.17.1_linux_amd64.tar.gz \
     && chmod +x helmsman \
     && cp -p helmsman /usr/local/bin/ \
-    && rm -f helmsman_3.17.0_linux_amd64.tar.gz
+    && rm -f helmsman_3.17.1_linux_amd64.tar.gz
 
 FROM alpine:3.20.0
 
