@@ -34,7 +34,7 @@ RUN apk --no-cache add \
         python3-dev \
         cargo \
         build-base && \
-    rm -rf /usr/lib/python3.11/EXTERNALLY-MANAGED && \
+    rm -rf /usr/lib/python3.11/EXTERNALLY-MANAGED
 
 # Create and activate a Python virtual environment
 RUN python3 -m venv /venv && \
