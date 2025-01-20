@@ -1,5 +1,5 @@
 # Use the latest stable Alpine image
-FROM alpine:3.21.2
+FROM alpine:3.19.1
 
 # Set default arguments for versions
 ARG ANSIBLE_CORE_VERSION=2.16.11
@@ -34,12 +34,12 @@ RUN apk --no-cache add \
         python3-dev \
         cargo \
         build-base && \
-    rm -rf /usr/lib/python3.11/EXTERNALLY-MANAGED
+    rm -rf /usr/lib/python3.12/EXTERNALLY-MANAGED
 
 # Create and activate a Python virtual environment
 RUN python3 -m venv /venv && \
-    . /venv/bin/activate && \
-    pip3 install --upgrade pip pywinrm && \
+    source /venv/bin/activate && \
+    pip3 install --upgrade pip pywinrm wheel && \
     pip3 install \
         ansible-core==${ANSIBLE_CORE_VERSION} \
         ansible==${ANSIBLE_VERSION} \
@@ -93,7 +93,9 @@ RUN python3 -m venv /venv && \
         yamllint==1.35.1 \
         zipp==3.21.0 && \
     apk del build-dependencies && \
-    rm -rf /var/cache/apk/* /root/.cache/pip /root/.cargo
+    rm -rf /var/cache/apk/* && \
+    rm -rf /root/.cache/pip && \
+    rm -rf /root/.cargo
 
 # Prepare default Ansible directory structure
 RUN mkdir /ansible && \
