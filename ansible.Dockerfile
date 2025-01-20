@@ -26,11 +26,15 @@ RUN apk --no-cache add \
         sshpass \
         openssh-client \
         rsync \
-        git \
+        git && \
+    apk --no-cache add --virtual build-dependencies \
         gcc \
         musl-dev \
         libffi-dev \
-        build-base
+        python3-dev \
+        cargo \
+        build-base && \
+    rm -rf /usr/lib/python3.11/EXTERNALLY-MANAGED && \
 
 # Create and activate a Python virtual environment
 RUN python3 -m venv /venv && \
@@ -88,8 +92,8 @@ RUN python3 -m venv /venv && \
         wcmatch==10.0 \
         yamllint==1.35.1 \
         zipp==3.21.0 && \
-    apk del build-base && \
-    rm -rf /var/cache/apk/* /root/.cache/pip
+    apk del build-dependencies && \
+    rm -rf /var/cache/apk/* /root/.cache/pip /root/.cargo
 
 # Prepare default Ansible directory structure
 RUN mkdir /ansible && \
