@@ -19,20 +19,13 @@ LABEL maintainer="pachman17@yandex.ru" \
 RUN apk --no-cache add \
         sudo \
         python3 \
-        py3-pip \
+        python3-pip \
         openssl \
         ca-certificates \
         sshpass \
         openssh-client \
         rsync \
-        git && \
-    apk --no-cache add --virtual build-dependencies \
-        python3-dev \
-        libffi-dev \
-        musl-dev \
-        gcc \
-        cargo \
-        build-base
+        git
 
 # Create and activate a Python virtual environment
 RUN python3 -m venv /venv && \
@@ -47,6 +40,8 @@ RUN python3 -m venv /venv && \
         bcrypt==4.2.1 \
         black==24.10.0 \
         bracex==2.5.post1 \
+        cryptography==43.0.1 \
+        cffi==1.17.1 \
         certifi==2024.8.30 \
         charset-normalizer==3.4.0 \
         click==8.1.8 \
@@ -88,8 +83,7 @@ RUN python3 -m venv /venv && \
         wcmatch==10.0 \
         yamllint==1.35.1 \
         zipp==3.21.0 && \
-    apk del build-dependencies && \
-    rm -rf /var/cache/apk/* /root/.cache/pip /root/.cargo
+    rm -rf /var/cache/apk/* /root/.cache/pip
 
 # Prepare default Ansible directory structure
 RUN mkdir /ansible && \
