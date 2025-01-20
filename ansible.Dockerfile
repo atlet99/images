@@ -39,8 +39,8 @@ RUN apk --no-cache add \
 # Create and activate a Python virtual environment
 RUN python3 -m venv /venv && \
     . /venv/bin/activate && \
-    pip install --upgrade pip wheel && \
-    pip install \
+    pip3 install --upgrade pip pywinrm && \
+    pip3 install \
         ansible-core==${ANSIBLE_CORE_VERSION} \
         ansible==${ANSIBLE_VERSION} \
         ansible-lint==${ANSIBLE_LINT_VERSION} \
