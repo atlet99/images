@@ -47,7 +47,7 @@ RUN curl -OL https://github.com/Praqma/helmsman/releases/download/v3.17.1/helmsm
 FROM alpine:3.20.0
 
 RUN apk --no-cache add git openssh-client gettext \
-    tar gzip bash curl jq
+    tar gzip bash curl jq yq
 
 RUN mkdir -p ~/.ssh
 
