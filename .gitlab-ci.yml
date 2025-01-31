@@ -39,6 +39,12 @@ variables:
   HELM_SECRETS:
     value: 4.6.2
     description: "helm-secrets plugin release for helmfile"
+  NGINX_VERSION:
+    value: 1.27.3
+    description: "nginx source package version"
+  OPENSSL_VERSION:
+    value: 3.4.0
+    description: "openssl source package version"
 
 
 default:
@@ -110,6 +116,17 @@ push_kaniko_image_stable:
     IMAGE_NAME: "kaniko"
     CONTEXT_PATH: "$CI_PROJECT_DIR"
     DOCKERFILE_PATH: "$CI_PROJECT_DIR/kaniko.Dockerfile"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "master"'
+      when: always
+
+push_nginx_image_stable:
+  <<: *build_template
+  stage: push
+  variables:
+    IMAGE_NAME: "nginx"
+    CONTEXT_PATH: "$CI_PROJECT_DIR"
+    DOCKERFILE_PATH: "$CI_PROJECT_DIR/nginx.Dockerfile"
   rules:
     - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "master"'
       when: always
