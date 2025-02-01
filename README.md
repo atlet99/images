@@ -17,7 +17,8 @@ The Dockerfiles included in this project allow you to build custom images for va
 
 * ***Ansible Image:*** a containerized environment for running Ansible;
 * ***Kaniko Image:*** a container for building Docker images without requiring a Docker daemon;
-* ***Deployer Image:*** a deployment-focused image containing Terraform, Helm, SOPS, and Kubernetes CLI tools.
+* ***Deployer Image:*** a deployment-focused image containing Terraform, Helm, SOPS, and Kubernetes CLI tools;
+* ***Nginx Image:*** a lightweight and high-performance containerized web server designed for serving static content, reverse proxying, load balancing, and caching.
 
 ## Getting started
 
@@ -62,6 +63,14 @@ docker buildx build \
   --build-arg HELM_SECRETS=4.0.0 \
   -t deployer:stable \
   -f deployer.Dockerfile \
+  --push .
+ 
+# Build Nginx image
+docker buildx build \
+  --build-arg NGINX_VERSION=1.27.3 \
+  --build-arg OPENSSL_VERSION=3.4.0 \
+  -t nginx:stable \
+  -f nginx.Dockerfile \
   --push .
 ```
 
