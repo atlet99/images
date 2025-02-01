@@ -25,8 +25,8 @@ WORKDIR /usr/src
 
 RUN curl -OL https://github.com/nginx/nginx/releases/download/release-${NGINX_VERSION}/nginx-${NGINX_VERSION}.tar.gz -k && \
     curl -OL https://github.com/openssl/openssl/releases/download/openssl-${OPENSSL_VERSION}/openssl-${OPENSSL_VERSION}.tar.gz -k && \
-    tar xzf nginx-${NGINX_VERSION}.tar.gz && \
-    tar xzf openssl-${OPENSSL_VERSION}.tar.gz
+    tar xpf nginx-${NGINX_VERSION}.tar.gz && \
+    tar xpf openssl-${OPENSSL_VERSION}.tar.gz
 
 WORKDIR /usr/src/openssl-${OPENSSL_VERSION}
 

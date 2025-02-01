@@ -13,7 +13,7 @@ RUN curl -L -o /usr/local/bin/helmfile https://github.com/roboll/helmfile/releas
 ARG HELM_VERSION
 RUN curl -OL https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz -k \
     && chmod +x helm-v${HELM_VERSION}-linux-amd64.tar.gz \
-    && tar xzf helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+    && tar xpf helm-v${HELM_VERSION}-linux-amd64.tar.gz \
     && chmod +x linux-amd64/helm \
     && cp -p linux-amd64/helm /usr/local/bin/ \
     && rm -f helm-v${HELM_VERSION}-linux-amd64.tar.gz
@@ -37,9 +37,9 @@ RUN curl -OL https://hashicorp-releases.yandexcloud.net/terraform/${TERRAFORM_VE
     && rm -f terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
 ARG HELMSMAN_APP_VERSION
-RUN curl -OL https://github.com/Praqma/helmsman/releases/download/v3.17.1/helmsman_3.17.1_linux_amd64.tar.gz -k \
+RUN curl -OL https://github.com/Praqma/helmsman/releases/download/v${HELMSMAN_APP_VERSION}/helmsman_${HELMSMAN_APP_VERSION}_linux_amd64.tar.gz -k \
     && ls -la \
-    && tar xzf helmsman_3.17.1_linux_amd64.tar.gz \
+    && tar xpf helmsman_3.17.1_linux_amd64.tar.gz \
     && chmod +x helmsman \
     && cp -p helmsman /usr/local/bin/ \
     && rm -f helmsman_3.17.1_linux_amd64.tar.gz
