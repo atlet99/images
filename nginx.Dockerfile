@@ -4,6 +4,11 @@ ARG NGINX_VERSION
 ARG OPENSSL_VERSION
 
 RUN apt-get update && apt-get install -y \
+    tar \
+    git \
+    gzip \
+    zip \
+    unzip \
     build-essential \
     libpcre3-dev \
     zlib1g-dev \
