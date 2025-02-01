@@ -1,6 +1,6 @@
-# Custom Docker Images for Ansible, Kaniko, and Deployer
+# Custom Docker Images
 
-This repository contains Dockerfiles for building custom Docker images tailored for DevOps tools such as Ansible, Kaniko, and a deployer image with Terraform and other deployment utilities. These images are crafted to streamline automation and deployment workflows while ensuring consistency and security across various environments.
+This repository contains Dockerfiles for building custom Docker images tailored for DevOps tools such as Ansible, Kaniko, Nginx and a deployer image with Terraform and other deployment utilities. These images are crafted to streamline automation and deployment workflows while ensuring consistency and security across various environments.
 
 ## Table of Contents
 - [Custom Docker Images for Ansible, Kaniko, and Deployer](#custom-docker-images-for-ansible-kaniko-and-deployer)
