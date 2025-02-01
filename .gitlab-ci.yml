@@ -46,7 +46,6 @@ variables:
     value: 3.4.0
     description: "openssl source package version"
 
-
 default:
   interruptible: true
   retry:
@@ -67,21 +66,26 @@ before_script:
     name: gcr.io/kaniko-project/executor:v1.23.1-debug
     entrypoint: [ "" ]
   script:
-    - |
-      BUILD_ARGS=$(echo "$BUILD_ARGS" | tr '\n' ' ')
-      FULL_IMAGE="$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+    - |      
+      BUILD_ARGS_RAW=$(echo "${BUILD_ARGS}" | tr '\n' ' ')
+      FULL_IMAGE="$CI_REGISTRY_IMAGE/${IMAGE_NAME}:${IMAGE_TAG}"
       echo "Building and pushing image: $FULL_IMAGE"
-      if [ -n "$BUILD_ARGS" ]; then
+      
+      if [[ -n "$BUILD_ARGS" ]]; then
         echo "Using build args: $BUILD_ARGS"
         /kaniko/executor \
-          --context "$CONTEXT_PATH" \
+          --insecure-registry \
+          --skip-tls-verify-registry \
+          --context "${BUILD_CONTEXT}" \
           --dockerfile "$DOCKERFILE_PATH" \
           --destination "$FULL_IMAGE" \
-          $BUILD_ARGS
+          $BUILD_ARGS_RAW
       else
         echo "No build args provided"
         /kaniko/executor \
-          --context "$CONTEXT_PATH" \
+          --insecure-registry \
+          --skip-tls-verify-registry \
+          --context "${BUILD_CONTEXT}" \
           --dockerfile "$DOCKERFILE_PATH" \
           --destination "$FULL_IMAGE"
       fi
@@ -91,7 +95,8 @@ push_ansible_image_stable:
   stage: push
   variables:
     IMAGE_NAME: "ansible"
-    CONTEXT_PATH: "$CI_PROJECT_DIR"
+    IMAGE_TAG: "stable"
+    BUILD_CONTEXT: "$CI_PROJECT_DIR"
     DOCKERFILE_PATH: "$CI_PROJECT_DIR/ansible.Dockerfile"
   rules:
     - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "master"'
@@ -102,7 +107,8 @@ push_deployer_image_stable:
   stage: push
   variables:
     IMAGE_NAME: "deployer"
-    CONTEXT_PATH: "$CI_PROJECT_DIR"
+    IMAGE_TAG: "stable"
+    BUILD_CONTEXT: "$CI_PROJECT_DIR"
     DOCKERFILE_PATH: "$CI_PROJECT_DIR/deployer.Dockerfile"
     BUILD_ARGS: --build-arg HELMFILE_VERSION=$HELMFILE_VERSION --build-arg HELM_VERSION=$HELM_VERSION --build-arg SOPS_VERSION=$SOPS_VERSION --build-arg KUBECTL_VERSION=$KUBECTL_VERSION --build-arg TERRAFORM_VERSION=$TERRAFORM_VERSION --build-arg HELMSMAN_APP_VERSION=$HELMSMAN_APP_VERSION --build-arg HELM_DIFF=$HELM_DIFF --build-arg HELM_GIT=$HELM_GIT --build-arg HELM_S3=$HELM_S3 --build-arg HELM_SECRETS=$HELM_SECRETS
   rules:
@@ -114,7 +120,8 @@ push_kaniko_image_stable:
   stage: push
   variables:
     IMAGE_NAME: "kaniko"
-    CONTEXT_PATH: "$CI_PROJECT_DIR"
+    IMAGE_TAG: "stable"
+    BUILD_CONTEXT: "$CI_PROJECT_DIR"
     DOCKERFILE_PATH: "$CI_PROJECT_DIR/kaniko.Dockerfile"
   rules:
     - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "master"'
@@ -125,8 +132,10 @@ push_nginx_image_stable:
   stage: push
   variables:
     IMAGE_NAME: "nginx"
-    CONTEXT_PATH: "$CI_PROJECT_DIR"
+    IMAGE_TAG: "stable"
+    BUILD_CONTEXT: "$CI_PROJECT_DIR"
     DOCKERFILE_PATH: "$CI_PROJECT_DIR/nginx.Dockerfile"
+    BUILD_ARGS: --build-arg NGINX_VERSION=$NGINX_VERSION --build-arg OPENSSL_VERSION=$OPENSSL_VERSION
   rules:
     - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "master"'
       when: always
