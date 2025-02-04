@@ -9,6 +9,7 @@ This repository contains Dockerfiles for building custom Docker images tailored 
   - [Getting started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Building Images with buildx](#building-images-with-buildx)
+    - [Building Images Locally with Makefile](#building-images-locally-with-makefile)
   - [License](#license)
 
 ## Overview
@@ -73,6 +74,24 @@ docker buildx build \
   -f nginx.Dockerfile \
   --push .
 ```
+
+### Building Images Locally with Makefile
+
+A `Makefile` is provided to simplify local builds. It extracts version variables from `.gitlab-ci.yml` and uses them in Docker builds automatically. To build images locally, run:
+
+```bash
+make deployer   # Build deployer image
+make nginx      # Build Nginx image
+make kaniko     # Build Kaniko image
+make all        # Build all images
+make print-vars # Print all variables
+```
+
+To verify extracted variables, use:
+```bash
+make print-vars
+```
+This will print the parsed version numbers used in the builds.
 
 ## License
 
