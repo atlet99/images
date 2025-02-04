@@ -35,7 +35,7 @@ deployer:
 	  --build-arg HELM_GIT=$(HELM_GIT) \
 	  --build-arg HELM_S3=$(HELM_S3) \
 	  --build-arg HELM_SECRETS=$(HELM_SECRETS) \
-	  -t deployer:latest \
+	  -t deployer:custom \
 	  -f deployer.Dockerfile .
 
 .PHONY: nginx
@@ -43,14 +43,26 @@ nginx:
 	docker build \
 	  --build-arg NGINX_VERSION=$(NGINX_VERSION) \
 	  --build-arg OPENSSL_VERSION=$(OPENSSL_VERSION) \
-	  -t nginx:latest \
+	  -t nginx:custom \
 	  -f nginx.Dockerfile .
 
 .PHONY: kaniko
 kaniko:
 	docker build \
-	  -t kaniko:latest \
+	  -t kaniko:custom \
 	  -f kaniko.Dockerfile .
+
+.PHONY: run-deployer
+run-deployer:
+	docker run -it --rm deployer:custom bash
+
+.PHONY: run-nginx
+run-nginx:
+	docker run -it --rm nginx:custom bash
+
+.PHONY: run-kaniko
+run-kaniko:
+	docker run -it --rm kaniko:custom bash
 
 .PHONY: print-vars
 print-vars:
