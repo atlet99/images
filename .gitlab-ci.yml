@@ -59,7 +59,6 @@ default:
 before_script:
   - mkdir -p /kaniko/.docker
   - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(echo -n ${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD} | base64 | tr -d '\n')\"}}}" > $CONTAINER_CONFIG
-  - echo "{\"auths\":{\"$DOCKERHUB_REGISTRY\":{\"auth\":\"$(echo -n ${DOCKERHUB_USER}:${DOCKERHUB_PASSWORD} | base64 | tr -d '\n')\"}}}" >> $CONTAINER_CONFIG
 
 .build_template: &build_template
   image:
