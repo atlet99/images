@@ -41,7 +41,10 @@ RUN curl -OL https://github.com/Praqma/helmsman/releases/download/v${HELMSMAN_AP
     && tar xpf helmsman_${HELMSMAN_APP_VERSION}_linux_amd64.tar.gz \
     && chmod +x helmsman \
     && cp -p helmsman /usr/local/bin/ \
-    && rm -f helmsman_${HELMSMAN_APP_VERSION}_linux_amd64.tar.gz
+    && rm -f helmsman_${HELMSMAN_APP_VERSION}_linux_amd64.tar.gz \
+
+ARG ARGOCD_CLI_VERSION
+RUN curl -OL https://github.com/argoproj/argo-cd/releases/download/v${ARGOCD_CLI_VERSION}/argocd-linux-amd64
 
 FROM alpine:3.20.0
 

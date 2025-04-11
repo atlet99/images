@@ -45,6 +45,9 @@ variables:
   OPENSSL_VERSION:
     value: 3.4.0
     description: "openssl source package version"
+  ARGOCD_CLI_VERSION:
+    value: 2.14.2
+    description: "argo-cd cli package version"
 
 default:
   interruptible: true

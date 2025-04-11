@@ -18,6 +18,7 @@ HELM_S3 := $(shell awk '/HELM_S3:/{getline; print $$2}' .gitlab-ci.yml)
 HELM_SECRETS := $(shell awk '/HELM_SECRETS:/{getline; print $$2}' .gitlab-ci.yml)
 NGINX_VERSION := $(shell awk '/NGINX_VERSION:/{getline; print $$2}' .gitlab-ci.yml)
 OPENSSL_VERSION := $(shell awk '/OPENSSL_VERSION:/{getline; print $$2}' .gitlab-ci.yml)
+ARGOCD_CLI_VERSION := $(shell awk '/ARGOCD_CLI_VERSION:/{getline; print $$2}' .gitlab-ci.yml)
 
 .PHONY: all
 all: deployer nginx kaniko
@@ -35,6 +36,7 @@ deployer:
 	  --build-arg HELM_GIT=$(HELM_GIT) \
 	  --build-arg HELM_S3=$(HELM_S3) \
 	  --build-arg HELM_SECRETS=$(HELM_SECRETS) \
+	  --build-arg ARGOCD_CLI_VERSION=$(ARGOCD_CLI_VERSION) \
 	  -t deployer:custom \
 	  -f deployer.Dockerfile .
 
@@ -78,3 +80,4 @@ print-vars:
 	@echo "HELM_SECRETS=$(HELM_SECRETS)"
 	@echo "NGINX_VERSION=$(NGINX_VERSION)"
 	@echo "OPENSSL_VERSION=$(OPENSSL_VERSION)"
+	@echo "ARGOCD_CLI_VERSION=$(ARGOCD_CLI_VERSION)"
