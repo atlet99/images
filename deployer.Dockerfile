@@ -48,6 +48,8 @@ RUN curl -OL https://github.com/argoproj/argo-cd/releases/download/v${ARGOCD_CLI
 
 FROM alpine:3.20.0
 
+ENV YC_OAUTH_TOKEN=""
+
 RUN apk --no-cache add git openssh-client gettext \
     tar gzip bash curl jq yq
 
@@ -75,4 +77,7 @@ RUN /usr/local/bin/helm plugin install https://github.com/databus23/helm-diff --
 
 ENV PATH="/usr/local/bin:${PATH}"
 
-CMD ["/bin/bash"]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
