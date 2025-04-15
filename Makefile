@@ -21,7 +21,13 @@ OPENSSL_VERSION := $(shell awk '/OPENSSL_VERSION:/{getline; print $$2}' .gitlab-
 ARGOCD_CLI_VERSION := $(shell awk '/ARGOCD_CLI_VERSION:/{getline; print $$2}' .gitlab-ci.yml)
 
 .PHONY: all
-all: deployer nginx kaniko
+all: ansible deployer nginx kaniko
+
+.PHONY: ansible
+ansible:
+	docker build \
+	  -t ansible:custom \
+	  -f ansible.Dockerfile .
 
 .PHONY: deployer
 deployer:
@@ -53,6 +59,10 @@ kaniko:
 	docker build \
 	  -t kaniko:custom \
 	  -f kaniko.Dockerfile .
+
+.PHONY: run-ansible
+run-ansible:
+	docker run -it --rm ansible:custom sh
 
 .PHONY: run-deployer
 run-deployer:

@@ -1,13 +1,13 @@
 # Use the latest stable Alpine image
-FROM alpine:3.21.2
+FROM alpine:3.21.3
 
 # Set the working directory for Ansible
 WORKDIR /ansible
 
 # Set default arguments for versions
-ARG ANSIBLE_CORE_VERSION=2.16.11
-ARG ANSIBLE_VERSION=9.6.1
-ARG ANSIBLE_LINT_VERSION=24.12.2
+ARG ANSIBLE_CORE_VERSION=2.18.4
+ARG ANSIBLE_VERSION=11.4.0
+ARG ANSIBLE_LINT_VERSION=25.2.1
 
 # Disable pip cache
 ENV PIP_NO_CACHE_DIR=1
