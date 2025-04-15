@@ -1,3 +1,3 @@
-FROM gcr.io/kaniko-project/executor:v1.23.1-debug
+FROM gcr.io/kaniko-project/executor:v1.23.2-debug
 
 ENTRYPOINT ["/kaniko/executor"]

@@ -1,4 +1,4 @@
-FROM ubuntu:latest AS builder
+FROM ubuntu:noble-20250404 AS builder
 
 RUN apt-get update \
     && apt-get install -y \
@@ -46,7 +46,7 @@ RUN curl -OL https://github.com/Praqma/helmsman/releases/download/v${HELMSMAN_AP
 ARG ARGOCD_CLI_VERSION
 RUN curl -OL https://github.com/argoproj/argo-cd/releases/download/v${ARGOCD_CLI_VERSION}/argocd-linux-amd64
 
-FROM alpine:3.20.0
+FROM alpine:3.21.3
 
 ENV YC_OAUTH_TOKEN=""
 
