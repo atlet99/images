@@ -81,7 +81,7 @@ before_script:
           --context "${BUILD_CONTEXT}" \
           --dockerfile "$DOCKERFILE_PATH" \
           --destination "$FULL_IMAGE" \
-          $BUILD_ARGS_RAW
+          $BUILD_ARGS
       else
         echo "No build args provided"
         /kaniko/executor \
