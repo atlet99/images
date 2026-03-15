@@ -47,7 +47,7 @@ requestsexceptions==1.4.0
 resolvelib==1.0.1
 rpds-py==0.24.0
 ruamel.yaml==0.18.10
-setuptools==78.1.0
+setuptools==78.1.1
 stevedore==5.4.1
 subprocess-tee==0.4.2
 typing_extensions==4.13.2
